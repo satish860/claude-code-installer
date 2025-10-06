@@ -53,10 +53,20 @@
 
     <Fragment>
         <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-            <Component Id="InstallScript" Guid="*">
+            <Component Id="InstallScript" Guid="A1B2C3D4-E5F6-7890-ABCD-EF1234567890">
+                <RegistryValue Root="HKCU"
+                               Key="Software\ClaudeCodeInstaller"
+                               Name="installed"
+                               Type="integer"
+                               Value="1"
+                               KeyPath="yes" />
                 <File Id="InstallScriptFile"
-                      Source="install-claude-code.ps1"
-                      KeyPath="yes" />
+                      Source="install-claude-code.ps1" />
+                <RemoveFile Id="RemoveInstallFolder"
+                           Name="*.*"
+                           On="uninstall" />
+                <RemoveFolder Id="RemoveINSTALLFOLDER"
+                             On="uninstall" />
             </Component>
         </ComponentGroup>
     </Fragment>

@@ -1,0 +1,167 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        type: string
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install WiX Toolset
+      run: |
+        Write-Host "Installing WiX Toolset..."
+        choco install wixtoolset -y
+
+    - name: Add WiX to PATH
+      run: |
+        $wixPath = "C:\Program Files (x86)\WiX Toolset v3.11\bin"
+        echo $wixPath | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+    - name: Build MSI installer
+      run: |
+        cd windows
+        .\build-msi.ps1
+
+    - name: Upload Windows installer
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-installer
+        path: windows/ClaudeCodeInstaller.msi
+
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Make build script executable
+      run: |
+        cd mac
+        chmod +x build-pkg.sh
+        chmod +x install-claude-code.sh
+
+    - name: Build PKG installer
+      run: |
+        cd mac
+        ./build-pkg.sh
+
+    - name: Upload macOS installer
+      uses: actions/upload-artifact@v4
+      with:
+        name: macos-installer
+        path: mac/ClaudeCodeInstaller.pkg
+
+  create-release:
+    needs: [build-windows, build-macos]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download Windows installer
+      uses: actions/download-artifact@v4
+      with:
+        name: windows-installer
+        path: ./artifacts/windows
+
+    - name: Download macOS installer
+      uses: actions/download-artifact@v4
+      with:
+        name: macos-installer
+        path: ./artifacts/macos
+
+    - name: Get version
+      id: get_version
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
+        else
+          echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Generate checksums
+      run: |
+        cd artifacts
+        sha256sum windows/ClaudeCodeInstaller.msi > checksums.txt
+        sha256sum macos/ClaudeCodeInstaller.pkg >> checksums.txt
+        cat checksums.txt
+
+    - name: Create Release Notes
+      id: release_notes
+      run: |
+        cat > release_notes.md << 'EOF'
+        ## Claude Code Installer ${{ steps.get_version.outputs.version }}
+
+        Easy-to-use installers for Claude Code on Windows and macOS.
+
+        ### Downloads
+
+        - **Windows**: `ClaudeCodeInstaller.msi`
+        - **macOS**: `ClaudeCodeInstaller.pkg`
+
+        ### Installation Instructions
+
+        #### Windows
+        1. Download `ClaudeCodeInstaller.msi`
+        2. Double-click to run the installer
+        3. Follow the installation wizard
+        4. Open PowerShell and run `claude`
+
+        #### macOS
+        1. Download `ClaudeCodeInstaller.pkg`
+        2. Double-click to run the installer
+        3. If prompted, allow in System Preferences > Security & Privacy
+        4. Open Terminal and run `claude`
+
+        ### What's Included
+
+        - Automated Node.js installation (if needed)
+        - Claude Code CLI installation
+        - Complete setup verification
+
+        ### System Requirements
+
+        - **Windows**: Windows 10 or later, 4GB+ RAM
+        - **macOS**: macOS 10.15 (Catalina) or later, 4GB+ RAM
+
+        ### Checksums (SHA256)
+
+        See `checksums.txt` for file verification.
+
+        ### Need Help?
+
+        - [Documentation](https://docs.claude.com/claude-code)
+        - [Quick Start Guide](QUICK_START.md)
+        - [GitHub Issues](https://github.com/${{ github.repository }}/issues)
+        EOF
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.get_version.outputs.version }}
+        name: Release ${{ steps.get_version.outputs.version }}
+        body_path: release_notes.md
+        draft: false
+        prerelease: false
+        files: |
+          artifacts/windows/ClaudeCodeInstaller.msi
+          artifacts/macos/ClaudeCodeInstaller.pkg
+          artifacts/checksums.txt
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

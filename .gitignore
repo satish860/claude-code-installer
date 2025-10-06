@@ -1,0 +1,67 @@
+# Build outputs
+*.msi
+*.pkg
+*.wixobj
+*.wixpdb
+
+# Build directories
+windows/obj/
+windows/build/
+mac/build/
+build/
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node modules (if any)
+node_modules/
+
+# Environment files
+.env
+.env.local
+
+# Windows specific
+ehthumbs.db
+$RECYCLE.BIN/
+
+# macOS specific
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.fseventsd
+.TemporaryItems
+.apdisk
+
+# Archives
+*.zip
+*.tar.gz
+*.7z
+
+# Certificates and signing keys (never commit these!)
+*.pfx
+*.p12
+*.cer
+*.pem
+*.key
+codesign/

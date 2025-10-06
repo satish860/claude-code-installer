@@ -1,0 +1,62 @@
+name: Build Windows Installer
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install WiX Toolset
+      run: |
+        Write-Host "Installing WiX Toolset..."
+        choco install wixtoolset -y
+
+    - name: Add WiX to PATH
+      run: |
+        $wixPath = "C:\Program Files (x86)\WiX Toolset v3.11\bin"
+        echo $wixPath | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+    - name: Verify WiX installation
+      run: |
+        $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+        candle -?
+
+    - name: Build MSI installer
+      run: |
+        cd windows
+        .\build-msi.ps1
+
+    - name: Verify MSI was created
+      run: |
+        if (Test-Path "windows\ClaudeCodeInstaller.msi") {
+          Write-Host "[OK] MSI file created successfully"
+          $fileSize = (Get-Item "windows\ClaudeCodeInstaller.msi").Length
+          Write-Host "File size: $([math]::Round($fileSize/1MB, 2)) MB"
+        } else {
+          Write-Host "[ERROR] MSI file not found!"
+          exit 1
+        }
+
+    - name: Upload MSI artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ClaudeCodeInstaller-Windows
+        path: windows/ClaudeCodeInstaller.msi
+        retention-days: 30
+
+    - name: Upload build logs
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-build-logs
+        path: windows/obj/*.log
+        if-no-files-found: ignore

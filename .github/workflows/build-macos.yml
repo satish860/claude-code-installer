@@ -1,0 +1,64 @@
+name: Build macOS Installer
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Verify Xcode Command Line Tools
+      run: |
+        if xcode-select -p &> /dev/null; then
+          echo "[OK] Xcode Command Line Tools are installed"
+          xcode-select -p
+        else
+          echo "[ERROR] Xcode Command Line Tools not found"
+          exit 1
+        fi
+
+    - name: Make build script executable
+      run: |
+        cd mac
+        chmod +x build-pkg.sh
+        chmod +x install-claude-code.sh
+
+    - name: Build PKG installer
+      run: |
+        cd mac
+        ./build-pkg.sh
+
+    - name: Verify PKG was created
+      run: |
+        if [ -f "mac/ClaudeCodeInstaller.pkg" ]; then
+          echo "[OK] PKG file created successfully"
+          ls -lh mac/ClaudeCodeInstaller.pkg
+          FILE_SIZE=$(du -h mac/ClaudeCodeInstaller.pkg | cut -f1)
+          echo "File size: $FILE_SIZE"
+        else
+          echo "[ERROR] PKG file not found!"
+          exit 1
+        fi
+
+    - name: Upload PKG artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ClaudeCodeInstaller-macOS
+        path: mac/ClaudeCodeInstaller.pkg
+        retention-days: 30
+
+    - name: Upload build logs
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: macos-build-logs
+        path: mac/build/*.log
+        if-no-files-found: ignore

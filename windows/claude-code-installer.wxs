@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="*"
+             Name="Claude Code"
+             Language="1033"
+             Version="1.0.0.0"
+             Manufacturer="Claude Code Installer"
+             UpgradeCode="12345678-1234-1234-1234-123456789012">
+
+        <Package InstallerVersion="200"
+                 Compressed="yes"
+                 InstallScope="perUser"
+                 Description="Claude Code - AI-powered CLI tool"
+                 Comments="Installs Claude Code and required dependencies" />
+
+        <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+        <MediaTemplate EmbedCab="yes" />
+
+        <Feature Id="ProductFeature"
+                 Title="Claude Code"
+                 Level="1"
+                 Description="Installs Claude Code and Node.js (if needed)">
+            <ComponentGroupRef Id="ProductComponents" />
+        </Feature>
+
+        <!-- Custom Actions -->
+        <CustomAction Id="RunInstallScript"
+                      Directory="INSTALLFOLDER"
+                      ExeCommand="powershell.exe -ExecutionPolicy Bypass -File &quot;[INSTALLFOLDER]install-claude-code.ps1&quot; -Silent"
+                      Execute="deferred"
+                      Return="check"
+                      Impersonate="yes" />
+
+        <InstallExecuteSequence>
+            <Custom Action="RunInstallScript" After="InstallFiles">NOT Installed</Custom>
+        </InstallExecuteSequence>
+
+        <!-- UI -->
+        <UIRef Id="WixUI_Minimal" />
+        <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+
+        <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    </Product>
+
+    <Fragment>
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="LocalAppDataFolder">
+                <Directory Id="INSTALLFOLDER" Name="ClaudeCodeInstaller" />
+            </Directory>
+        </Directory>
+    </Fragment>
+
+    <Fragment>
+        <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+            <Component Id="InstallScript" Guid="*">
+                <File Id="InstallScriptFile"
+                      Source="install-claude-code.ps1"
+                      KeyPath="yes" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

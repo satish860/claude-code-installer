@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="One-click installers for Claude Code on Windows and macOS. Install Claude Code easily without technical knowledge.">
+    <meta name="keywords" content="Claude Code, AI CLI, installer, Windows, macOS, Node.js, automation">
+    <title>Claude Code Installer - One-Click Setup for Windows & macOS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Install Claude Code in <span class="highlight">One Click</span></h1>
+                <p class="hero-subtitle">No technical knowledge required. We handle Node.js, dependencies, and everything else.</p>
+                <div class="download-buttons">
+                    <a href="https://github.com/satish860/claude-code-installer/releases/latest/download/ClaudeCodeInstaller.msi" class="btn btn-primary" id="windows-btn">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+                        Download for Windows
+                    </a>
+                    <a href="https://github.com/satish860/claude-code-installer/releases/latest/download/ClaudeCodeInstaller.pkg" class="btn btn-secondary" id="mac-btn">
+                        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+                        Download for macOS
+                    </a>
+                </div>
+                <p class="version-info" id="version-info">Latest version: Loading...</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- The Problem Section -->
+    <section class="problem-section">
+        <div class="container">
+            <h2 class="section-title">Why Do You Need This?</h2>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">❌</div>
+                    <h3>Complex Manual Setup</h3>
+                    <p>Installing Claude Code manually requires Node.js, npm, command-line knowledge, and multiple configuration steps.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">🤔</div>
+                    <h3>Technical Barriers</h3>
+                    <p>Non-technical users struggle with terminal commands, environment variables, and dependency management.</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">⏰</div>
+                    <h3>Time Consuming</h3>
+                    <p>Manual installation can take 30+ minutes with troubleshooting. Our installer does it in under 5 minutes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Solution Section -->
+    <section class="solution-section">
+        <div class="container">
+            <h2 class="section-title">The <span class="highlight">Simple</span> Solution</h2>
+            <div class="solution-content">
+                <div class="solution-text">
+                    <h3>One Installer Does Everything</h3>
+                    <ul class="feature-list">
+                        <li>✅ Automatically detects Node.js installation</li>
+                        <li>✅ Installs or updates Node.js if needed (v18+)</li>
+                        <li>✅ Installs Claude Code globally</li>
+                        <li>✅ Verifies everything works correctly</li>
+                        <li>✅ Clear success messages guide you</li>
+                    </ul>
+                </div>
+                <div class="solution-visual">
+                    <div class="workflow-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Download Installer</div>
+                        </div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-text">Double-Click</div>
+                        </div>
+                        <div class="step-arrow">→</div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-text">Start Using</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">Powerful Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Automated Builds</h3>
+                    <p>GitHub Actions automatically builds installers for every release. Always up-to-date.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure & Safe</h3>
+                    <p>Open-source code. No malware, no tracking. Built with trusted tools (WiX, pkgbuild).</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Professional Packages</h3>
+                    <p>MSI for Windows, PKG for macOS. Native installers that follow platform conventions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛠️</div>
+                    <h3>Smart Detection</h3>
+                    <p>Checks existing Node.js version and only installs if missing or outdated.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3>User Friendly</h3>
+                    <p>Color-coded output, clear instructions, and helpful error messages guide you through.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Easy Updates</h3>
+                    <p>Update Claude Code anytime with a simple command: <code>claude update</code></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works-section">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="platform-tabs">
+                <button class="tab-btn active" data-platform="windows">Windows</button>
+                <button class="tab-btn" data-platform="mac">macOS</button>
+            </div>
+
+            <div class="platform-content" id="windows-content">
+                <ol class="installation-steps">
+                    <li>Download <code>ClaudeCodeInstaller.msi</code></li>
+                    <li>Double-click the downloaded file</li>
+                    <li>Follow the installation wizard (click Next a few times)</li>
+                    <li>Open PowerShell (Windows Key + X → PowerShell)</li>
+                    <li>Type <code>claude</code> and press Enter</li>
+                    <li>Follow authentication prompts</li>
+                    <li>Start using Claude Code!</li>
+                </ol>
+            </div>
+
+            <div class="platform-content hidden" id="mac-content">
+                <ol class="installation-steps">
+                    <li>Download <code>ClaudeCodeInstaller.pkg</code></li>
+                    <li>Double-click the downloaded file</li>
+                    <li>If security warning appears: System Preferences → Security & Privacy → "Open Anyway"</li>
+                    <li>Follow the installation wizard</li>
+                    <li>Open Terminal (Command + Space → type "Terminal")</li>
+                    <li>Type <code>claude</code> and press Enter</li>
+                    <li>Follow authentication prompts</li>
+                    <li>Start using Claude Code!</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Requirements -->
+    <section class="requirements-section">
+        <div class="container">
+            <h2 class="section-title">System Requirements</h2>
+            <div class="requirements-grid">
+                <div class="requirement-card">
+                    <h3>Windows</h3>
+                    <ul>
+                        <li>Windows 10 or later</li>
+                        <li>4GB+ RAM</li>
+                        <li>PowerShell 5.1+</li>
+                        <li>Internet connection</li>
+                    </ul>
+                </div>
+                <div class="requirement-card">
+                    <h3>macOS</h3>
+                    <ul>
+                        <li>macOS 10.15 (Catalina) or later</li>
+                        <li>4GB+ RAM</li>
+                        <li>Terminal (Bash/Zsh)</li>
+                        <li>Internet connection</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <h3 class="faq-question">Is this official?</h3>
+                    <p class="faq-answer">This is a community project to simplify Claude Code installation. It installs the official Claude Code package from npm.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Is it safe?</h3>
+                    <p class="faq-answer">Yes! The code is open-source and available on GitHub. It only installs official packages (Node.js and Claude Code). No malware, no tracking.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Do I need administrator rights?</h3>
+                    <p class="faq-answer">No for most cases. The installer uses per-user installation. Admin rights may help but aren't required.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">What if I already have Node.js?</h3>
+                    <p class="faq-answer">The installer detects existing Node.js. If version 18+ is installed, it skips Node.js installation and only installs Claude Code.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">How do I uninstall?</h3>
+                    <p class="faq-answer">Windows: Settings → Apps → Node.js/Claude Code. macOS: <code>npm uninstall -g @anthropic-ai/claude-code</code> then <code>brew uninstall node@20</code></p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Where can I get help?</h3>
+                    <p class="faq-answer">Check the <a href="https://github.com/satish860/claude-code-installer/blob/main/QUICK_START.md">Quick Start Guide</a> or open an <a href="https://github.com/satish860/claude-code-installer/issues">issue on GitHub</a>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Get Started?</h2>
+            <p>Download the installer for your platform and start using Claude Code in minutes.</p>
+            <div class="download-buttons">
+                <a href="https://github.com/satish860/claude-code-installer/releases/latest/download/ClaudeCodeInstaller.msi" class="btn btn-primary">
+                    Download for Windows
+                </a>
+                <a href="https://github.com/satish860/claude-code-installer/releases/latest/download/ClaudeCodeInstaller.pkg" class="btn btn-secondary">
+                    Download for macOS
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Claude Code Installer</h4>
+                    <p>Community project to simplify Claude Code installation.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="https://github.com/satish860/claude-code-installer">GitHub Repository</a></li>
+                        <li><a href="https://github.com/satish860/claude-code-installer/releases">Releases</a></li>
+                        <li><a href="https://github.com/satish860/claude-code-installer/blob/main/QUICK_START.md">Quick Start</a></li>
+                        <li><a href="https://github.com/satish860/claude-code-installer/blob/main/CONTRIBUTING.md">Contributing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://docs.claude.com/claude-code">Claude Code Docs</a></li>
+                        <li><a href="https://github.com/satish860/claude-code-installer/issues">Report Issue</a></li>
+                        <li><a href="https://github.com/satish860/claude-code-installer/blob/main/LICENSE">MIT License</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Claude Code Installer. Open-source project under MIT License.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

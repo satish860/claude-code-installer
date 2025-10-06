@@ -70,11 +70,7 @@ cat > build/distribution.xml << 'EOF'
     <welcome file="welcome.html" mime-type="text/html"/>
     <conclusion file="conclusion.html" mime-type="text/html"/>
 
-    <pkg-ref id="com.claudecode.installer">
-        <bundle-version>
-            <bundle id="com.claudecode.installer" CFBundleVersion="1.0.0" path="ClaudeCodeInstaller-component.pkg"/>
-        </bundle-version>
-    </pkg-ref>
+    <pkg-ref id="com.claudecode.installer" version="1.0.0">ClaudeCodeInstaller-component.pkg</pkg-ref>
 
     <choices-outline>
         <line choice="default">
